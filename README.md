@@ -1,1 +1,4 @@
-# algorithms
+# Array
+- Searching
+- Sorting
+
