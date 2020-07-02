@@ -299,7 +299,7 @@ public class SearchingAlgorithm {
         for (int i = 0, j = 0; i < arr.length; i++, j++) {
             if (arr[i] == x) {
                 while (i + 1 < arr.length && arr[i] == x)
-                    i += 1;
+                    i++;
             }
             swap(arr, i, j);
         }
@@ -403,11 +403,11 @@ public class SearchingAlgorithm {
 //        shiftAllOccurrenceToEndInArray(arr, 1);
 
 //
-//        int arr1[] = {5, 2, 8};
-//        int arr2[] = {10, 7, 12};
-//        int arr3[] = {9, 14, 6};
+        int arr1[] = {5, 2, 8};
+        int arr2[] = {10, 7, 12};
+        int arr3[] = {9, 14, 6};
 //
-//        threeElementsWithMinDifference(arr1, arr2, arr3);
+        threeElementsWithMinDifference(arr1, arr2, arr3);
 
     }
 }
