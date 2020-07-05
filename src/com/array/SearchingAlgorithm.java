@@ -37,31 +37,23 @@ public class SearchingAlgorithm {
     }
 
 
-    public static int searchInRotatedSorted(int[] arr, int x, int l, int h) {
+    public static int searchInRotatedSorted(int[] arr, int l, int h, int key) {
 
         if (l <= h) {
+            int mid = l + h >> 1;
 
-            int mid = l + h >>> 1;
-
-            if (arr[mid] == x) {
+            if (arr[mid] == key)
                 return mid;
+
+            if (arr[l] <= arr[mid]) {
+                if (key >= arr[l] && key <= arr[mid])
+                    return searchInRotatedSorted(arr, l, mid - 1, key);
+                return searchInRotatedSorted(arr, mid + 1, h, key);
+            } else {
+                if (key >= arr[mid] && key <= arr[h])
+                    return searchInRotatedSorted(arr, mid + 1, h, key);
+                return searchInRotatedSorted(arr, l, mid - 1, key);
             }
-
-            if (l < mid && arr[l] <= arr[mid - 1]) {
-                if (x >= arr[l] && x <= arr[mid - 1]) {
-                    return searchInRotatedSorted(arr, x, l, mid - 1);
-                } else {
-                    return searchInRotatedSorted(arr, x, mid + 1, h);
-                }
-            } else if (h > mid && arr[mid + 1] <= arr[h]) {
-                if (x >= arr[mid + 1] && x <= arr[h]) {
-                    return searchInRotatedSorted(arr, x, mid + 1, h);
-                } else {
-                    return searchInRotatedSorted(arr, x, l, mid - 1);
-                }
-            } else
-                return -1;
-
         }
 
         return -1;

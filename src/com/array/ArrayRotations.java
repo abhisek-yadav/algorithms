@@ -1,5 +1,7 @@
 package com.array;
 
+import java.util.Arrays;
+
 public class ArrayRotations {
 
 
@@ -33,18 +35,20 @@ public class ArrayRotations {
                 if (key >= arr[l] && key <= arr[mid])
                     return searchElementInRotatedSortedArray(arr, l, mid - 1, key);
                 return searchElementInRotatedSortedArray(arr, mid + 1, h, key);
+            } else {
+                if (key >= arr[mid] && key <= arr[h])
+                    return searchElementInRotatedSortedArray(arr, mid + 1, h, key);
+                return searchElementInRotatedSortedArray(arr, l, mid - 1, key);
             }
-            if (key >= arr[mid] && key <= arr[h])
-                return searchElementInRotatedSortedArray(arr, mid + 1, h, key);
-            return searchElementInRotatedSortedArray(arr, l, mid - 1, key);
         }
 
         return -1;
     }
 
     public static void printArray(int[] arr) {
-        for (int e : arr)
-            System.out.print(e + ", ");
+
+        Arrays.stream(arr).forEach(x -> System.out.print(x + ", "));
+
     }
 
     public static void main(String[] args) {
