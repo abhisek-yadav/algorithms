@@ -126,6 +126,56 @@ public class ArrayRotations {
         return minIndex;
     }
 
+    //Query1 (1, 3) : 3 times right rotations
+    //Query2 (2, 2) : 2 times left rotations
+    //Query3 (3, 1, 3) : sum of indexes from 1 to 3
+
+    static int l;
+    static int h;
+    static int n;
+
+    public static void queriesOnLeftRightRotations(int[] arr, String query, int rotations, int startIndex, int endIndex) {
+
+        rotations = rotations % n;
+
+        switch (query) {
+            case "1": {
+
+                //perform right rotations
+                //manipulate the l and h
+
+                l = (n - rotations) % n;
+                h = (n + l - 1) % n;
+
+                break;
+            }
+            case "2": {
+
+                //perform left rotations
+                //manipulate the l and h
+
+                l = (l + rotations) % n;
+                h = (n + l - 1) % n;
+
+                break;
+            }
+            case "3": {
+
+                // calculate the sum for the given indexes
+
+                int sum = 0;
+
+                for (int i = startIndex; i <= endIndex; i++) {
+                    sum += arr[(l + i) % n];
+                }
+
+                System.out.println("Sum: " + sum);
+            }
+            default:
+                break;
+        }
+    }
+
 
     public static void printArray(int[] arr) {
 
@@ -149,8 +199,19 @@ public class ArrayRotations {
 //        int[] arr = {4, 1, 2, 3};
 //        System.out.println(maxSum(arr));
 
-        int[] arr = {4, 5, 6, 7, 8, 9, 1, 2, 3};
+//        int[] arr = {4, 5, 6, 7, 8, 9, 1, 2, 3};
+//        System.out.println(numberOfRotations(arr));
 
-        System.out.println(numberOfRotations(arr));
+
+        int[] arr = {1, 2, 3, 4, 5};
+        l = 0;
+        n = arr.length;
+        h = n - 1;
+
+        queriesOnLeftRightRotations(arr, "1", 3, -1, -1);
+        queriesOnLeftRightRotations(arr, "3", 0, 0, 2);
+        queriesOnLeftRightRotations(arr, "2", 1, -1, -1);
+        queriesOnLeftRightRotations(arr, "3", 0, 1, 4);
+
     }
 }
