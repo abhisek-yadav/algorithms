@@ -105,6 +105,59 @@ public class SortingAlgorithm {
         }
     }
 
+    public static void selectionSort(int[] arr) {
+
+        for (int i = 0; i < arr.length - 1; i++) {
+            int k = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[k])
+                    k = j;
+            }
+            swap(arr, i, k);
+        }
+
+    }
+
+    public static void mergeSort(int[] arr, int l, int h) {
+
+        if (l < h) {
+            int mid = l + h >>> 1;
+            mergeSort(arr, l, mid);
+            mergeSort(arr, mid + 1, h);
+            merge(arr, l, mid, h);
+        }
+
+    }
+
+    public static void merge(int[] arr, int l, int mid, int h) {
+
+        int[] arr1 = new int[arr.length];
+
+        int i = l;
+        int j = mid + 1;
+        int k = l;
+
+        while (i <= mid && j <= h) {
+
+            if (arr[i] < arr[j])
+                arr1[k++] = arr[i++];
+            else
+                arr1[k++] = arr[j++];
+
+        }
+
+        while (i <= mid)
+            arr1[k++] = arr[i++];
+
+        while (j <= h)
+            arr1[k++] = arr[j++];
+
+        for (int x = l; x <= h; x++) {
+            arr[l++] = arr1[x];
+        }
+
+    }
+
     public static void printArray(int[] arr) {
 
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
@@ -121,7 +174,12 @@ public class SortingAlgorithm {
 
 //        insertionSort(arr);
 
-        bubbleSort(arr);
+//        bubbleSort(arr);
+
+//        selectionSort(arr);
+
+        mergeSort(arr, 0, arr.length - 1);
+
         printArray(arr);
     }
 
