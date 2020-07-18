@@ -1,8 +1,14 @@
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Test {
 
-
+    /**
+     * Largest minimum of a given number where digits of the output number are in increasing order.
+     *
+     * @param number
+     * @return number
+     */
     public static int largestMinimum(int number) {
 
         int temp = 0;
@@ -31,6 +37,11 @@ public class Test {
         return number;
     }
 
+    /**
+     * Return the list of strings having highest frequency.
+     *
+     * @return list of strings
+     */
     public static List<String> wordFrequency() {
 
         Map<String, Integer> wordFrequency = new HashMap<>();
@@ -64,8 +75,13 @@ public class Test {
         return result;
     }
 
+    /**
+     * Count the number of minimum operations required to insert all the given elements either from left or right.
+     *
+     * @param numbers
+     * @return number of operations
+     */
     public static long minimumOperations(List<Integer> numbers) {
-        // Write your code here
 
         int total = 1;
         for (int i = 1; i < numbers.size(); i++) {
@@ -87,12 +103,60 @@ public class Test {
         return total;
     }
 
+    /**
+     * Count the number of shines.
+     * <p>
+     * Shine will be incremented when all the previous bulbs/elements are turned on/appeared in the given input.
+     *
+     * @param arr
+     * @return shines count
+     */
+    public static int countShines(int[] arr) {
+
+        int[] temp = new int[arr.length + 1];
+        int shines = 0;
+
+        long millis = System.currentTimeMillis();
+
+        for (int e : arr) {
+            temp[e] = 1;
+
+            boolean flag = true;
+            for (int i = e - 1; i > 0; i--) {
+
+                if (temp[i] == i)
+                    break;
+
+                if (temp[i] == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+
+            if (flag) {
+                temp[e] = e;
+                ++shines;
+            }
+        }
+
+        System.err.println("Total time taken: " + (System.currentTimeMillis() - millis) + " millis");
+
+        return shines;
+    }
+
     public static void main(String[] args) {
 
-        System.out.println(largestMinimum(343));
+//        System.out.println(largestMinimum(343));
 
-        List<Integer> numbers = Arrays.asList(10, 6, 2, 3, 7, 1, 2);
+//        List<Integer> numbers = Arrays.asList(10, 6, 2, 3, 7, 1, 2);
 
-        System.out.println(minimumOperations(numbers));
+//        System.out.println(minimumOperations(numbers));
+
+
+        IntStream stream = IntStream.range(0, 1000000);
+        int[] arr = stream.toArray();
+        Arrays.stream(arr).forEach(e -> arr[e] = e);
+
+        System.out.println(countShines(arr));
     }
 }
