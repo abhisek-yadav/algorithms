@@ -113,10 +113,10 @@ public class Test {
      */
     public static int countShines(int[] arr) {
 
+        long millis = System.currentTimeMillis();
+
         int[] temp = new int[arr.length + 1];
         int shines = 0;
-
-        long millis = System.currentTimeMillis();
 
         for (int e : arr) {
             temp[e] = 1;
@@ -144,6 +144,73 @@ public class Test {
         return shines;
     }
 
+    /**
+     * For a given binary number, return the total number of counts when it's decimal equivalent number reaches to 0.
+     *
+     * @param binary
+     * @return total number of counts
+     */
+    public static int count(String binary) {
+
+        long millis = System.currentTimeMillis();
+
+        long num = Long.parseLong(binary, 2);
+        System.err.println("Given Number: " + num);
+
+        int count = 0;
+
+        while (num > 0) {
+//            if ((num & 1) == 0)
+            if (num % 2 == 0)
+                num = num / 2;
+            else
+                num = num - 1;
+
+            ++count;
+        }
+
+        System.err.println("Total time taken for count: " + (System.currentTimeMillis() - millis) + " millis");
+
+        return count;
+    }
+
+    /**
+     * For a given binary number, return the total number of counts when it's decimal equivalent number reaches to 0.
+     * <p>
+     * An optimized solution to the above problem.
+     *
+     * @param binary
+     * @return total number of counts
+     */
+    public static int optimizedCount(String binary) {
+
+        long millis = System.currentTimeMillis();
+
+        int i = 0;
+        int j = 0;
+        int l = binary.length();
+
+        while (i < l) {
+            if (binary.charAt(i) == '1') {
+                j = l - i;
+                break;
+            }
+            ++i;
+        }
+
+        if (i == l)
+            return j;
+
+        for (int x = i + 1; x < l; x++) {
+            if (binary.charAt(x) == '1')
+                ++j;
+        }
+
+        System.out.println("Total time taken for optimized count: " + (System.currentTimeMillis() - millis) + " millis");
+
+        return j;
+    }
+
     public static void main(String[] args) {
 
 //        System.out.println(largestMinimum(343));
@@ -157,6 +224,13 @@ public class Test {
         int[] arr = stream.toArray();
         Arrays.stream(arr).forEach(e -> arr[e] = e);
 
-        System.out.println(countShines(arr));
+//        System.out.println(countShines(arr));
+
+        String binary = "100110101110101000001010101010101010101";
+
+        System.out.println("Simple count: " + count(binary));
+
+        System.err.println("Optimized count: " + optimizedCount(binary));
+
     }
 }
