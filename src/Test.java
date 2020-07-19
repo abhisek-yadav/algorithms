@@ -211,6 +211,71 @@ public class Test {
         return j;
     }
 
+    /**
+     * Method to return the maximum number of consecutive elements in given array where the sum is >=0.
+     * <p>
+     * The given input array only contains -1, 0, 1.
+     *
+     * @param A
+     * @return number of consecutive elements
+     */
+    public static int maxLength(int[] A) {
+
+        int result = 0;
+        int secondResult = 0;
+        int count = 0;
+        int maxEndingHere = 0;
+
+        for (int i = 0; i < A.length; i++) {
+
+            if (A[i] == 0) {
+                ++count;
+                result = Math.max(result, count);
+                continue;
+            }
+
+            maxEndingHere += A[i];
+
+            if (maxEndingHere >= 0) {
+                ++count;
+            } else {
+                result = Math.max(result, count);
+                count = 0;
+                maxEndingHere = 0;
+            }
+
+            result = Math.max(result, count);
+        }
+
+        count = 0;
+
+        for (int i = A.length - 1; i >= 0; i--) {
+
+            if (A[i] == 0) {
+                ++count;
+                secondResult = Math.max(secondResult, count);
+                continue;
+            }
+
+            maxEndingHere += A[i];
+
+            if (maxEndingHere >= 0) {
+                ++count;
+            } else {
+                secondResult = Math.max(result, count);
+                count = 0;
+                maxEndingHere = 0;
+            }
+
+            secondResult = Math.max(secondResult, count);
+        }
+
+        System.out.println(result + " " + secondResult);
+
+        return Math.max(result, secondResult);
+    }
+
+
     public static void main(String[] args) {
 
 //        System.out.println(largestMinimum(343));
@@ -220,17 +285,21 @@ public class Test {
 //        System.out.println(minimumOperations(numbers));
 
 
-        IntStream stream = IntStream.range(0, 1000000);
-        int[] arr = stream.toArray();
-        Arrays.stream(arr).forEach(e -> arr[e] = e);
+//        IntStream stream = IntStream.range(0, 1000000);
+//        int[] arr = stream.toArray();
+//        Arrays.stream(arr).forEach(e -> arr[e] = e);
 
 //        System.out.println(countShines(arr));
 
-        String binary = "100110101110101000001010101010101010101";
+//        String binary = "100110101110101000001010101010101010101";
 
-        System.out.println("Simple count: " + count(binary));
+//        System.out.println("Simple count: " + count(binary));
 
-        System.err.println("Optimized count: " + optimizedCount(binary));
+//        System.err.println("Optimized count: " + optimizedCount(binary));
+
+        int[] arr = {-1, -1, 1, -1, 1, 0, 1, -1, 1, -1, 0, -1, 0};
+
+        System.out.println(maxLength(arr));
 
     }
 }
