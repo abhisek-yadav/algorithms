@@ -10,10 +10,11 @@ public class ArrayArrangementRearrangement {
         for (int i = 0; i < arr.length; i++) {
 
             int num = arr[i];
-            arr[i] = -1;
 
             if (num == -1)
                 continue;
+
+            arr[i] = -1;
 
             while (num != -1 && arr[num] != num) {
                 int n = arr[num];
