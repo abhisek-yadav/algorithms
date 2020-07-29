@@ -99,6 +99,29 @@ public class ArrayOrderStatistics {
         return elements;
     }
 
+    public static int[] largestThreeElements(int[] arr) {
+
+        int x = 0;
+        int y = 0;
+        int z = 0;
+
+        for (int value : arr) {
+
+            if (value > x) {
+                z = y;
+                y = x;
+                x = value;
+            } else if (value > y) {
+                z = y;
+                y = value;
+            } else if (value > z) {
+                z = value;
+            }
+        }
+
+        return new int[]{x, y, z};
+    }
+
 
     public static void insertionSort(int[] arr) {
 
@@ -188,10 +211,17 @@ public class ArrayOrderStatistics {
 
 //        insertionSort(arr);
 
-        int[] arr = {7, 10, 4, 3, 20, 15, 1, 2, 5, 6, 8, 9};
+//        int[] arr = {7, 10, 4, 3, 20, 15, 1, 2, 5, 6, 8, 9};
 //        System.out.println(quickSelect(arr, 0, arr.length - 1, 2));
 
-        int[] a = kSmallestElements(arr, 12);
+//        int[] a = kSmallestElements(arr, 12);
+//        printArray(a);
+
+
+        int[] arr = {17, 10, 4, 13, 20, 15, 1, 2, 5, 6, 8, 19};
+
+        int[] a = largestThreeElements(arr);
+
         printArray(a);
 
         printArray(arr);
