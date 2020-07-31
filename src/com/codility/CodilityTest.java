@@ -1,9 +1,7 @@
 package com.codility;
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class CodilityTest {
 
@@ -162,6 +160,66 @@ public class CodilityTest {
         return result1 + "," + result2;
     }
 
+    /**
+     * Sum of A[0..K-1] is equal to A[K...N]
+     * <p>
+     * Sum of B[0..L-1] is equal to B[L...N]
+     * <p>
+     * Find out the count of all matching indexes of K and L from the two given arrays.
+     * <p>
+     * If any of the K and L indexes doesn't match return 0.
+     *
+     * @param A
+     * @param B
+     * @return
+     */
+    public static int countIndexesForEqualLeftRightSum(int[] A, int[] B) {
+
+        List<Integer> countA = check(A);
+        List<Integer> countB = check(B);
+
+        if (countA.size() != countB.size())
+            return 0;
+
+        int count = 0;
+
+        for (int i = 0; i < countA.size(); i++) {
+            if (countA.get(i).equals(countB.get(i)))
+                ++count;
+            else return 0;
+        }
+
+
+        return count;
+
+    }
+
+    private static List<Integer> check(int[] A) {
+        // write your code in Java SE 8
+
+        List<Integer> count = new ArrayList<>();
+
+        int rightSum = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            rightSum += A[i];
+        }
+
+
+        int leftSum = 0;
+
+        for (int i = 0; i < A.length; i++) {
+
+            if (rightSum == leftSum)
+                count.add(i);
+            leftSum += A[i];
+            rightSum -= A[i];
+        }
+
+        return count;
+
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
@@ -171,9 +229,16 @@ public class CodilityTest {
 
 //        System.out.println(missingIntegerUsingHash(arr));
 
-        System.out.println(largerThanGivenNumber(398));
+//        System.out.println(largerThanGivenNumber(398));
 
-        System.out.println(isPossibleCombination(3, 2, new int[]{2, 0, 1, 1, 1}));
+//        System.out.println(isPossibleCombination(3, 2, new int[]{2, 0, 1, 1, 1}));
+
+//        int[] arr = {-2, 5, 0, 3};
+//        int[] arr1 = {-1, 4, 1, 4};
+        int[] arr = {4, -1, 0, 3};
+        int[] arr1 = {5, -1, 0, 4};
+
+        System.out.println(countIndexesForEqualLeftRightSum(arr, arr1));
 
     }
 }
