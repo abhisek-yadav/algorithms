@@ -66,14 +66,55 @@ public class CodilityTest {
         return result;
     }
 
+    /**
+     * Algorithm to find the larger number than the given number where sum of the digits of new number are same as the given number.
+     *
+     * @param N
+     * @return
+     */
+    public static int largerThanGivenNumber(int N) {
+        // write your code in Java SE 8
+
+        int temp = N;
+        int sum = 0;
+
+        while (temp > 0) {
+            sum = sum + temp % 10;
+            temp = temp / 10;
+
+        }
+
+        if (sum == 1) {
+            return N * 10;
+        }
+
+        int number;
+        while (true) {
+            temp = ++N;
+            number = temp;
+            int s = 0;
+
+            while (temp > 0) {
+                s = s + temp % 10;
+                temp = temp / 10;
+            }
+            if (s == sum)
+                break;
+        }
+
+        return number;
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
-        int[] arr = {1, 2, 3};
+//        int[] arr = {1, 2, 3};
 
 //        System.out.println(missingInteger(arr));
 
-        System.out.println(missingIntegerUsingHash(arr));
+//        System.out.println(missingIntegerUsingHash(arr));
+
+        System.out.println(largerThanGivenNumber(398));
 
     }
 }
