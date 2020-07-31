@@ -105,6 +105,63 @@ public class CodilityTest {
         return number;
     }
 
+    /**
+     * Problem description:
+     *
+     * Given U : 3  (Sum of upper row)
+     * Given L : 2  (Sum of lower  row)
+     *
+     *          1 0 1 0 1
+     *          1 0 0 1 0
+     * Given C: 2 0 1 1 1
+     *
+     * Find out the with the given U and L and C, is it possible to have the above combination?
+     *
+     * @param U
+     * @param L
+     * @param C
+     * @return
+     */
+    public static String isPossibleCombination(int U, int L, int[] C) {
+        // write your code in Java SE 8
+
+        StringBuilder result1 = new StringBuilder();
+        StringBuilder result2 = new StringBuilder();
+
+        for (int i = 0; i < C.length; i++) {
+
+            if (C[i] == 2) {
+                if (L > 0 && U > 0) {
+                    --L;
+                    --U;
+                    result1.append("1");
+                    result2.append("1");
+                } else
+                    return "IMPOSSIBLE";
+            } else if (C[i] == 0) {
+                result1.append("0");
+                result2.append("0");
+            } else {
+                if (U > 0) {
+                    --U;
+                    result1.append("1");
+                    result2.append("0");
+                } else if (L > 0) {
+                    --L;
+                    result1.append("0");
+                    result2.append("1");
+                } else
+                    return "IMPOSSIBLE";
+            }
+
+        }
+
+        if (U != 0 || L != 0)
+            return "IMPOSSIBLE";
+
+        return result1 + "," + result2;
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
@@ -115,6 +172,8 @@ public class CodilityTest {
 //        System.out.println(missingIntegerUsingHash(arr));
 
         System.out.println(largerThanGivenNumber(398));
+
+        System.out.println(isPossibleCombination(3, 2, new int[]{2, 0, 1, 1, 1}));
 
     }
 }
