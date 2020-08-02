@@ -1,6 +1,11 @@
 package com.array;
 
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 public class ArrayOrderStatistics {
 
@@ -122,6 +127,63 @@ public class ArrayOrderStatistics {
         return new int[]{x, y, z};
     }
 
+    public static void medianOfInputStream() {
+
+        PriorityQueue<Double> maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+        PriorityQueue<Double> minHeap = new PriorityQueue<>();
+
+        IntStream.range(1, Byte.MAX_VALUE).mapToDouble(e -> e
+        ).forEach(e -> {
+
+            if (minHeap.isEmpty() || maxHeap.isEmpty()) {
+                if (minHeap.isEmpty()) {
+                    System.out.print(e + ", ");
+                    minHeap.add(e);
+                } else if (maxHeap.isEmpty()) {
+                    if (e > minHeap.peek()) {
+                        double element = minHeap.poll();
+                        maxHeap.add(element);
+                        minHeap.add(e);
+                    } else {
+                        maxHeap.add(e);
+                    }
+
+                    System.out.print(((minHeap.peek() + maxHeap.peek()) / 2) + ", ");
+                }
+
+            } else {
+                if (minHeap.size() == maxHeap.size()) {
+                    if (e > minHeap.peek()) {
+                        System.out.print(minHeap.peek() + ", ");
+                        minHeap.add(e);
+                    } else {
+                        System.out.print(maxHeap.peek() + ", ");
+                        maxHeap.add(e);
+                    }
+
+                } else if (minHeap.size() > maxHeap.size()) {
+                    if (e > minHeap.peek()) {
+                        maxHeap.add(minHeap.poll());
+                        minHeap.add(e);
+                    } else
+                        maxHeap.add(e);
+
+                    System.out.print(((minHeap.peek() + maxHeap.peek()) / 2) + ", ");
+
+                } else {
+                    if (e > minHeap.peek())
+                        minHeap.add(e);
+                    else {
+                        minHeap.add(maxHeap.poll());
+                        maxHeap.add(e);
+                    }
+
+                    System.out.print(((minHeap.peek() + maxHeap.peek()) / 2) + ", ");
+                }
+            }
+        });
+    }
+
 
     public static void insertionSort(int[] arr) {
 
@@ -218,12 +280,14 @@ public class ArrayOrderStatistics {
 //        printArray(a);
 
 
-        int[] arr = {17, 10, 4, 13, 20, 15, 1, 2, 5, 6, 8, 19};
+//        int[] arr = {17, 10, 4, 13, 20, 15, 1, 2, 5, 6, 8, 19};
 
-        int[] a = largestThreeElements(arr);
+//        int[] a = largestThreeElements(arr);
 
-        printArray(a);
+//        printArray(a);
 
-        printArray(arr);
+//        printArray(arr);
+
+        medianOfInputStream();
     }
 }
