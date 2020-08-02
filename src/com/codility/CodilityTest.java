@@ -2,6 +2,8 @@ package com.codility;
 
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CodilityTest {
 
@@ -220,6 +222,49 @@ public class CodilityTest {
 
     }
 
+    /**
+     * Given array [4,3,2,1] should return 1.
+     * <p>
+     * Given array [4,3,1] should return 0, because 2 is missing.
+     * <p>
+     * If there are duplicate elements, algorithm should return 0.
+     *
+     * @param A
+     * @return
+     */
+    public static int permCheck(int[] A) {
+
+        AtomicInteger maxValue = new AtomicInteger(0);
+        AtomicBoolean doesExists = new AtomicBoolean(false);
+        Set<Integer> numbers = new HashSet<>();
+
+        Arrays.stream(A).takeWhile(e -> {
+            if (numbers.contains(e)) {
+                doesExists.set(true);
+                return false;
+            }
+            return true;
+        }).forEach(e -> {
+            if (e > maxValue.get())
+                maxValue.set(e);
+            numbers.add(e);
+        });
+
+
+        if (doesExists.get())
+            return 0;
+
+        int max = maxValue.get();
+
+        while (max > 0) {
+            if (numbers.contains(max)) {
+                --max;
+            } else return 0;
+        }
+
+        return 1;
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
@@ -238,7 +283,9 @@ public class CodilityTest {
         int[] arr = {4, -1, 0, 3};
         int[] arr1 = {5, -1, 0, 4};
 
-        System.out.println(countIndexesForEqualLeftRightSum(arr, arr1));
+//        System.out.println(countIndexesForEqualLeftRightSum(arr, arr1));
+
+        System.out.println(permCheck(new int[]{4, 3, 2, 1}));
 
     }
 }
