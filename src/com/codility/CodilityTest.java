@@ -310,6 +310,25 @@ public class CodilityTest {
         return A;
     }
 
+    public static int oddOccurrencesInArray(int[] A) {
+
+        Map<Integer, Integer> occurrences = new HashMap<>();
+
+        Arrays.stream(A).forEach(e -> {
+            if (occurrences.containsKey(e))
+                occurrences.put(e, occurrences.get(e) + 1);
+            else occurrences.put(e, 1);
+
+        });
+
+        for (Map.Entry<Integer, Integer> entry : occurrences.entrySet()) {
+            if (entry.getValue() % 2 != 0)
+                return entry.getKey();
+        }
+
+        return 0;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -318,9 +337,7 @@ public class CodilityTest {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
 //        int[] arr = {1, 2, 3};
-
 //        System.out.println(missingInteger(arr));
-
 //        System.out.println(missingIntegerUsingHash(arr));
 
 //        System.out.println(largerThanGivenNumber(398));
@@ -331,17 +348,18 @@ public class CodilityTest {
 //        int[] arr1 = {-1, 4, 1, 4};
 //        int[] arr = {4, -1, 0, 3};
 //        int[] arr1 = {5, -1, 0, 4};
-
 //        System.out.println(countIndexesForEqualLeftRightSum(arr, arr1));
 
 //        System.out.println(permCheck(new int[]{4, 3, 2, 1}));
 
 //        System.out.println(binaryGap(32));
 
+//        int[] arr = {3, 8, 9, 7, 6};
+//        cyclicRotate(arr, 5);
+//        printArray(arr);
 
-        int[] arr = {3, 8, 9, 7, 6};
-        cyclicRotate(arr, 5);
-        printArray(arr);
+        int[] arr = {9, 3, 9, 3, 9, 7, 9};
+        System.out.println(oddOccurrencesInArray(arr));
 
     }
 }
