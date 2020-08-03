@@ -293,6 +293,27 @@ public class CodilityTest {
         return max.get();
     }
 
+    public static int[] cyclicRotate(int[] A, int K) {
+
+        if (A.length == 0)
+            return A;
+
+        int rotations = K % A.length;
+
+        for (int i = 1; i <= rotations; i++) {
+            int e = A[A.length - 1];
+
+            for (int j = A.length - 2; j >= 0; j--)
+                A[j + 1] = A[j];
+            A[0] = e;
+        }
+        return A;
+    }
+
+    public static void printArray(int[] arr) {
+        Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
@@ -308,14 +329,19 @@ public class CodilityTest {
 
 //        int[] arr = {-2, 5, 0, 3};
 //        int[] arr1 = {-1, 4, 1, 4};
-        int[] arr = {4, -1, 0, 3};
-        int[] arr1 = {5, -1, 0, 4};
+//        int[] arr = {4, -1, 0, 3};
+//        int[] arr1 = {5, -1, 0, 4};
 
 //        System.out.println(countIndexesForEqualLeftRightSum(arr, arr1));
 
 //        System.out.println(permCheck(new int[]{4, 3, 2, 1}));
 
-        System.out.println(binaryGap(32));
+//        System.out.println(binaryGap(32));
+
+
+        int[] arr = {3, 8, 9, 7, 6};
+        cyclicRotate(arr, 5);
+        printArray(arr);
 
     }
 }
