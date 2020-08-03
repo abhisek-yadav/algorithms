@@ -4,6 +4,7 @@ package com.codility;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 public class CodilityTest {
 
@@ -265,6 +266,33 @@ public class CodilityTest {
         return 1;
     }
 
+    public static int binaryGap(int N) {
+
+        String binary = Integer.toBinaryString(N);
+        AtomicInteger count = new AtomicInteger(0);
+        AtomicInteger max = new AtomicInteger(0);
+        AtomicBoolean isStart = new AtomicBoolean(false);
+
+        Stream.of(binary.split("")).forEach(c -> {
+
+            if (c.equals("1") && !isStart.get())
+                isStart.set(true);
+
+            if (c.equals("0") && isStart.get())
+                count.getAndAdd(1);
+
+            if (c.equals("1") && isStart.get()) {
+                if (count.get() > max.get())
+                    max.set(count.get());
+
+                count.set(0);
+            }
+
+        });
+
+        return max.get();
+    }
+
     public static void main(String[] args) {
 
 //        int[] arr = {1, 3, 6, 4, 1, 2};
@@ -285,7 +313,9 @@ public class CodilityTest {
 
 //        System.out.println(countIndexesForEqualLeftRightSum(arr, arr1));
 
-        System.out.println(permCheck(new int[]{4, 3, 2, 1}));
+//        System.out.println(permCheck(new int[]{4, 3, 2, 1}));
+
+        System.out.println(binaryGap(32));
 
     }
 }
