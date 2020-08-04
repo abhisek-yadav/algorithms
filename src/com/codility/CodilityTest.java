@@ -348,6 +348,17 @@ public class CodilityTest {
         return distanceCount;
     }
 
+    public static int permMissingElement(int[] A) {
+
+        AtomicInteger totalSum = new AtomicInteger(0);
+
+        Arrays.stream(A).forEach(e -> totalSum.set(totalSum.get() + e));
+
+        int requiredSum = ((A.length + 1) * (A.length + 2)) >>> 1;
+
+        return requiredSum - totalSum.get();
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -381,8 +392,11 @@ public class CodilityTest {
 //        System.out.println(oddOccurrencesInArray(arr));
 
 
-        System.out.println(frogMinimumJumps(5, 45, 20));
+//        System.out.println(frogMinimumJumps(5, 45, 20));
 
+        int[] arr = {2, 3, 1, 5};
+
+        System.out.println(permMissingElement(arr));
     }
 }
 
