@@ -329,6 +329,25 @@ public class CodilityTest {
         return 0;
     }
 
+    public static int frogMinimumJumps(int X, int Y, int D) {
+
+        if (X == Y)
+            return 0;
+
+        int remainingDistance = Y - X;
+
+        if (remainingDistance <= D)
+            return 1;
+
+        int distanceCount = remainingDistance / D;
+        int leftOverDistance = remainingDistance % D;
+
+        if (leftOverDistance > 0)
+            distanceCount += 1;
+
+        return distanceCount;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -358,8 +377,11 @@ public class CodilityTest {
 //        cyclicRotate(arr, 5);
 //        printArray(arr);
 
-        int[] arr = {9, 3, 9, 3, 9, 7, 9};
-        System.out.println(oddOccurrencesInArray(arr));
+//        int[] arr = {9, 3, 9, 3, 9, 7, 9};
+//        System.out.println(oddOccurrencesInArray(arr));
+
+
+        System.out.println(frogMinimumJumps(5, 45, 20));
 
     }
 }
