@@ -359,6 +359,33 @@ public class CodilityTest {
         return requiredSum - totalSum.get();
     }
 
+    public static int tapeEquilibrium(int[] A) {
+
+        AtomicInteger min = new AtomicInteger(Integer.MAX_VALUE);
+
+        AtomicInteger rightSum = new AtomicInteger(0);
+        AtomicInteger leftSum = new AtomicInteger(0);
+
+        Arrays.stream(A).forEach(e -> rightSum.set(rightSum.get() + e));
+
+        Arrays.stream(A).limit((long) (A.length - 1)).forEach(e -> {
+
+            rightSum.set(rightSum.get() - e);
+            leftSum.set(leftSum.get() + e);
+
+            int minSum = Math.min(rightSum.get(), leftSum.get());
+            int maxSum = Math.max(rightSum.get(), leftSum.get());
+
+            int diff = Math.abs(maxSum - minSum);
+
+            if (diff < min.get())
+                min.set(diff);
+
+        });
+
+        return min.get();
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -394,9 +421,13 @@ public class CodilityTest {
 
 //        System.out.println(frogMinimumJumps(5, 45, 20));
 
-        int[] arr = {2, 3, 1, 5};
+//        int[] arr = {2, 3, 1, 5};
+//        System.out.println(permMissingElement(arr));
 
-        System.out.println(permMissingElement(arr));
+//        int[] arr = {3, 1, 2, 4, 3};
+        int[] arr = {-10, -20, -30, -40, 100};
+//        int[] arr = {-1000, 1000};
+        System.out.println(tapeEquilibrium(arr));
     }
 }
 
