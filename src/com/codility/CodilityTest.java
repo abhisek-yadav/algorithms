@@ -4,6 +4,7 @@ package com.codility;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class CodilityTest {
@@ -386,6 +387,54 @@ public class CodilityTest {
         return min.get();
     }
 
+    public static int frogRiverOne(int[] A, int X) {
+
+        Map<Integer, Integer> visited = new HashMap<>();
+        AtomicInteger position = new AtomicInteger();
+        AtomicBoolean flag = new AtomicBoolean(false);
+
+        IntStream.range(0, A.length).takeWhile(i -> {
+            if (visited.size() < X) {
+                position.set(i);
+            } else {
+                int e = X;
+                while (visited.containsKey(e))
+                    --e;
+                if (e != 0) {
+                    position.set(i);
+                    return true;
+                }
+                flag.set(true);
+                return false;
+            }
+            return true;
+        }).forEach(i -> visited.put(A[i], 1));
+
+        if (flag.get() || visited.size() == X)
+            return position.get();
+
+        return -1;
+    }
+
+    public static int frogRiverOneUsingArray(int[] A, int X) {
+
+        int[] visited = new int[X + 1];
+
+        for (int i = 0; i < A.length; i++) {
+            visited[A[i]] = 1;
+            boolean flag = true;
+            for (int x = X; x > 0; x--) {
+                if (visited[x] != 1) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag)
+                return i;
+        }
+        return -1;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -425,9 +474,17 @@ public class CodilityTest {
 //        System.out.println(permMissingElement(arr));
 
 //        int[] arr = {3, 1, 2, 4, 3};
-        int[] arr = {-10, -20, -30, -40, 100};
+//        int[] arr = {-10, -20, -30, -40, 100};
 //        int[] arr = {-1000, 1000};
-        System.out.println(tapeEquilibrium(arr));
+//        System.out.println(tapeEquilibrium(arr));
+
+
+//        int[] arr = {1, 3, 1, 4, 2, 3, 5, 4};
+//        System.out.println(frogRiverOne(arr, 3));
+
+        int[] arr = {5, 4, 3, 2, 4, 8, 3, 2, 3, 1};
+        System.out.println(frogRiverOneUsingArray(arr, 1));
+
     }
 }
 
