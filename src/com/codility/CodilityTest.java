@@ -435,6 +435,76 @@ public class CodilityTest {
         return -1;
     }
 
+    private static IntStream reverseRange(int from, int to) {
+        return IntStream.range(from, to).map(i -> to - i + from - 1);
+    }
+
+    public static int[] maxCounter(int N, int[] A) {
+
+        Map<Integer, Integer> count = new HashMap<>();
+        IntStream.rangeClosed(1, N + 1).forEach(i -> count.put(i, 0));
+
+        AtomicInteger maxCountBeforeLargestNumber = new AtomicInteger();
+
+        IntStream.range(0, A.length).forEach(i -> {
+            if (A[i] <= N) {
+                count.put(A[i], count.get(A[i]) + 1);
+                if (count.get(A[i]) > maxCountBeforeLargestNumber.get())
+                    maxCountBeforeLargestNumber.set(count.get(A[i]));
+            } else {
+                IntStream.range(1, N + 1).forEach(j -> count.put(j, maxCountBeforeLargestNumber.get()));
+            }
+        });
+
+        int[] actualResult = new int[N];
+
+        for (int i = 1; i <= N; i++)
+            actualResult[i - 1] = count.get(i);
+
+
+        return actualResult;
+    }
+
+    public static int[] maxCounter1(int N, int[] A) {
+
+        Map<Integer, Integer> count = new HashMap<>();
+
+        AtomicInteger maxCount = new AtomicInteger();
+        TreeMap<Integer, Integer> occurrence = new TreeMap<>();
+        IntStream.range(0, A.length).forEach(i -> {
+            if (A[i] <= N) {
+                if (count.containsKey(A[i]))
+                    count.put(A[i], count.get(A[i]) + 1);
+                else
+                    count.put(A[i], 1);
+                if (count.get(A[i]) > maxCount.get())
+                    maxCount.set(count.get(A[i]));
+            } else {
+                occurrence.put(i, maxCount.get());
+                count.clear();
+                maxCount.set(0);
+            }
+        });
+
+        AtomicInteger index = new AtomicInteger();
+        AtomicInteger totalOccurrence = new AtomicInteger();
+        if(!occurrence.isEmpty()) {
+             index.set(occurrence.lastKey());
+             totalOccurrence.set(occurrence.values().stream().mapToInt(e -> e).sum());
+        }
+
+        IntStream.rangeClosed(1, N + 1).forEach(i -> count.put(i, totalOccurrence.get()));
+
+        IntStream.range(index.get(), A.length).forEach(i -> count.put(A[i], count.get(A[i]) + 1));
+
+        int[] actualResult = new int[N];
+
+        for (int i = 1; i <= N; i++)
+            actualResult[i - 1] = count.get(i);
+
+        return actualResult;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -482,9 +552,17 @@ public class CodilityTest {
 //        int[] arr = {1, 3, 1, 4, 2, 3, 5, 4};
 //        System.out.println(frogRiverOne(arr, 3));
 
-        int[] arr = {5, 4, 3, 2, 4, 8, 3, 2, 3, 1};
-        System.out.println(frogRiverOneUsingArray(arr, 1));
+//        int[] arr = {5, 4, 3, 2, 4, 8, 3, 2, 3, 1};
+//        System.out.println(frogRiverOneUsingArray(arr, 1));
 
+
+//        int[] arr = {3, 4, 4, 6, 1, 4, 4};
+        int[] arr = {1, 2, 3, 4, 5};
+//        int[] arr = {3, 4, 4, 6, 1, 2, 2, 6, 4, 5};
+
+//        printArray(maxCounter(5, arr));
+
+        printArray(maxCounter1(5, arr));
     }
 }
 
