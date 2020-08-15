@@ -435,10 +435,24 @@ public class CodilityTest {
         return -1;
     }
 
+    /**
+     * Utility method to traverse a stream in reverse order.
+     *
+     * @param from
+     * @param to
+     * @return
+     */
     private static IntStream reverseRange(int from, int to) {
         return IntStream.range(from, to).map(i -> to - i + from - 1);
     }
 
+    /**
+     * Not an optimized solution.
+     *
+     * @param N
+     * @param A
+     * @return
+     */
     public static int[] maxCounter(int N, int[] A) {
 
         Map<Integer, Integer> count = new HashMap<>();
@@ -505,6 +519,218 @@ public class CodilityTest {
         return actualResult;
     }
 
+    /**
+     * Calculate the number of elements between A and B which are divisible by K.
+     *
+     * @param A
+     * @param B
+     * @param K
+     * @return count of elements
+     */
+    public static int countDiv(int A, int B, int K) {
+
+        if (A == 0 && B == 0)
+            return 1;
+
+        int S;
+        if (A % K == 0)
+            S = A;
+        else
+            S = A + (K - A % K);
+
+        int X = B - S;
+
+        if (X < 0)
+            return 0;
+
+        if (X == 0) {
+            if (A % K == 0)
+                return 1;
+            return 0;
+        }
+
+        return X / K + 1;
+    }
+
+    /**
+     * Find out the minimum average of a slice.
+     *
+     * Minimum length of a slice is 2.
+     *
+     * @param A
+     * @return
+     */
+    public static int minAvgTwoSlice(int[] A) {
+
+        double average = Double.MAX_VALUE;
+        int index = 0;
+
+        for (int i = 0; i < A.length - 1; i++) {
+
+            double currentAverage;
+            int sum = A[i];
+
+            for (int j = i + 1; j < A.length && j < i + 3; j++) {
+                sum += A[j];
+                currentAverage = (sum) / (j - i + 1d);
+
+                if (currentAverage < average) {
+                    average = currentAverage;
+                    index = i;
+                }
+            }
+        }
+
+        return index;
+    }
+
+    public static String maskify(String creditCardNumber) {
+
+        final char maskChar = '#';
+
+        // check for null or empty
+        if (creditCardNumber == null || creditCardNumber.isEmpty())
+            return creditCardNumber;
+
+        int length = creditCardNumber.length();
+        if (length < 6)
+            return creditCardNumber;
+
+        StringBuilder maskedOutput = new StringBuilder();
+        maskedOutput.append(creditCardNumber.charAt(0));
+
+        //performing masking for qualified characters
+        IntStream.range(1, length - 4)
+                .forEach(i -> {
+                    if (Character.isDigit(creditCardNumber.charAt(i))) {
+                        maskedOutput.append(maskChar);
+                    } else {
+                        maskedOutput.append(creditCardNumber.charAt(i));
+                    }
+                });
+
+        maskedOutput.append(creditCardNumber.substring(length - 4));
+
+        return String.valueOf(maskedOutput);
+    }
+
+    public static String maskifyUsingRegEx(String creditCardNumber) {
+
+        final String maskChar = "#";
+        final String pattern = "([0-9])";
+
+        // check for null or empty
+        if (creditCardNumber == null || creditCardNumber.isEmpty())
+            return creditCardNumber;
+
+        int length = creditCardNumber.length();
+        if (length < 6)
+            return creditCardNumber;
+
+        StringBuilder maskedOutput = new StringBuilder();
+        maskedOutput.append(creditCardNumber.charAt(0));
+
+        //getting qualified characters to be masked
+        var toBeMasked = creditCardNumber.substring(1, creditCardNumber.length() - 4);
+
+        //masking the characters matched with regex
+        maskedOutput.append(toBeMasked.replaceAll(pattern, maskChar));
+
+        //appending last 4 characters
+        maskedOutput.append(creditCardNumber.substring(length - 4));
+
+        return String.valueOf(maskedOutput);
+    }
+
+    public static String numberToOrdinal(Integer number) {
+
+        if (number == 0)
+            return String.valueOf(number);
+
+        StringBuilder ordinalNumber = new StringBuilder();
+        ordinalNumber.append(number);
+
+        final Integer lastDigit = number % 10;
+        final Integer lastTwoDigit = number % 100;
+
+        // check for exceptional cases
+        if (lastTwoDigit == 11 || lastTwoDigit == 12 || lastTwoDigit == 13) {
+            ordinalNumber.append("th");
+        } else {
+            String ordinalVal = ordinalForSingleDigit(lastDigit);
+            ordinalNumber.append(ordinalVal);
+        }
+
+        return String.valueOf(ordinalNumber);
+    }
+
+    /**
+     * Utility method to take single digit as a input and return the ordinal value.
+     *
+     * @param d
+     * @return ordinal string
+     */
+    public static String ordinalForSingleDigit(Integer d) {
+
+        switch (d) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+
+    public static double evaluate(String expr) {
+
+        if (expr == null || expr.isEmpty())
+            return 0;
+
+        java.util.Stack<Double> operands = new java.util.Stack<>();
+
+        // splitting and parsing the given expression
+        Stream.of(expr.split(" "))
+                .forEach(element -> {
+
+                    // converting to char to check for digit
+                    char ch = element.charAt(0);
+
+                    if (Character.isDigit(ch)) {
+                        operands.push(Double.valueOf(element));
+                    } else {
+                        Optional<Double> result = evaluateOperation(operands, element);
+                        result.ifPresent(operands::push);
+                    }
+                });
+
+        return operands.pop();
+    }
+
+
+    public static Optional<Double> evaluateOperation(java.util.Stack<Double> operands, String operator) {
+
+        Double firstOperand = operands.pop();
+        Double secondOperand = operands.pop();
+
+        switch (operator) {
+            case "+":
+                return Optional.of(secondOperand + firstOperand);
+            case "-":
+                return Optional.of(secondOperand - firstOperand);
+            case "*":
+                return Optional.of(secondOperand * firstOperand);
+            case "/":
+                return Optional.of(secondOperand / firstOperand);
+            default:
+                return Optional.empty();
+        }
+
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -557,12 +783,25 @@ public class CodilityTest {
 
 
 //        int[] arr = {3, 4, 4, 6, 1, 4, 4};
-        int[] arr = {1, 2, 3, 4, 5};
+//        int[] arr = {1, 2, 3, 4, 5};
 //        int[] arr = {3, 4, 4, 6, 1, 2, 2, 6, 4, 5};
 
 //        printArray(maxCounter(5, arr));
+//        printArray(maxCounter1(5, arr));
 
-        printArray(maxCounter1(5, arr));
+//        System.out.println(countDiv(11, 19, 5));
+
+        int[] arr = {-1, -5, -8, -9, -11, -11};
+
+        System.out.println(minAvgTwoSlice(arr));
+
+
+//        System.out.println(maskifyUsingRegEx("1234-5-kjsdfhgjhsgfJDKDS=-HDJS--6789"));
+
+//        System.out.println(numberToOrdinal(0));
+
+//        System.out.println(evaluate("2.5 1 2 + 4 * + 3 -"));
+//        System.out.println(evaluate("1000 123 +"));
     }
 }
 
