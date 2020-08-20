@@ -1,9 +1,12 @@
 package com.codility;
 
 
+import static java.util.stream.Collectors.*;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -58,9 +61,7 @@ public class CodilityTest {
     public static int missingIntegerUsingHash(int[] A) {
 
         int result = 1;
-        Set<Integer> hash = new HashSet<>();
-
-        Arrays.stream(A).filter(e -> e > 0).forEach(hash::add);
+        Set<Integer> hash = Arrays.stream(A).filter(e -> e > 0).boxed().collect(toSet());
 
         while (hash.contains(result))
             ++result;
@@ -731,6 +732,27 @@ public class CodilityTest {
 
     }
 
+    public static int passingCars(int[] A) {
+
+        AtomicLong totalSum = new AtomicLong(Arrays.stream(A).reduce(0, Integer::sum));
+
+        AtomicLong totalPairs = new AtomicLong();
+
+        Arrays.stream(A).forEach(e -> {
+            if (e == 0)
+                totalPairs.set(totalPairs.get() + totalSum.get());
+            else
+                totalSum.decrementAndGet();
+        });
+
+
+        if (totalPairs.get() > 1000000000) {
+            return -1;
+        }
+
+        return (int) totalPairs.get();
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -791,9 +813,9 @@ public class CodilityTest {
 
 //        System.out.println(countDiv(11, 19, 5));
 
-        int[] arr = {-1, -5, -8, -9, -11, -11};
+//        int[] arr = {-1, -5, -8, -9, -11, -11};
 
-        System.out.println(minAvgTwoSlice(arr));
+//        System.out.println(minAvgTwoSlice(arr));
 
 
 //        System.out.println(maskifyUsingRegEx("1234-5-kjsdfhgjhsgfJDKDS=-HDJS--6789"));
@@ -802,6 +824,9 @@ public class CodilityTest {
 
 //        System.out.println(evaluate("2.5 1 2 + 4 * + 3 -"));
 //        System.out.println(evaluate("1000 123 +"));
+
+        int[] arr = {0, 1, 0, 1, 1};
+        System.out.println(passingCars(arr));
     }
 }
 
