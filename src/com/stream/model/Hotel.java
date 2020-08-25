@@ -1,4 +1,4 @@
-package com.stream;
+package com.stream.model;
 
 public class Hotel {
 
