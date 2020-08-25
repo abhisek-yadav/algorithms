@@ -1,14 +1,14 @@
 package com.codility;
 
 
-import static java.util.stream.Collectors.*;
-
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 public class CodilityTest {
 
@@ -503,9 +503,9 @@ public class CodilityTest {
 
         AtomicInteger index = new AtomicInteger();
         AtomicInteger totalOccurrence = new AtomicInteger();
-        if(!occurrence.isEmpty()) {
-             index.set(occurrence.lastKey());
-             totalOccurrence.set(occurrence.values().stream().mapToInt(e -> e).sum());
+        if (!occurrence.isEmpty()) {
+            index.set(occurrence.lastKey());
+            totalOccurrence.set(occurrence.values().stream().mapToInt(e -> e).sum());
         }
 
         IntStream.rangeClosed(1, N + 1).forEach(i -> count.put(i, totalOccurrence.get()));
@@ -555,7 +555,7 @@ public class CodilityTest {
 
     /**
      * Find out the minimum average of a slice.
-     *
+     * <p>
      * Minimum length of a slice is 2.
      *
      * @param A
@@ -734,7 +734,7 @@ public class CodilityTest {
 
     public static int passingCars(int[] A) {
 
-        AtomicLong totalSum = new AtomicLong(Arrays.stream(A).reduce(0, Integer::sum));
+        AtomicLong totalSum = new AtomicLong(Arrays.stream(A).sum());
 
         AtomicLong totalPairs = new AtomicLong();
 
@@ -751,6 +751,28 @@ public class CodilityTest {
         }
 
         return (int) totalPairs.get();
+    }
+
+    public static int[] genomicRangeQuery(String S, int[] P, int[] Q) {
+
+        int[] result = new int[P.length];
+
+        IntStream.range(0, P.length).forEach(i -> {
+
+            String sub = S.substring(P[i], Q[i] + 1);
+
+            if (sub.matches(".*[A].*"))
+                result[i] = 1;
+            else if (sub.matches(".*[C].*"))
+                result[i] = 2;
+            else if (sub.matches(".*[G].*"))
+                result[i] = 3;
+            else if (sub.matches(".*[T].*"))
+                result[i] = 4;
+
+        });
+
+        return result;
     }
 
     public static void printArray(int[] arr) {
@@ -825,8 +847,15 @@ public class CodilityTest {
 //        System.out.println(evaluate("2.5 1 2 + 4 * + 3 -"));
 //        System.out.println(evaluate("1000 123 +"));
 
-        int[] arr = {0, 1, 0, 1, 1};
-        System.out.println(passingCars(arr));
+//        int[] arr = {0, 1, 0, 1, 1};
+//        System.out.println(passingCars(arr));
+
+        int[] p = {2, 5, 0};
+        int[] q = {4, 5, 6};
+
+        String s = "CAGCCTA";
+
+        printArray(genomicRangeQuery(s, p, q));
     }
 }
 
