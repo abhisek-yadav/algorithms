@@ -18,8 +18,9 @@ public class StreamTest {
      */
     public static List<String> getCityNames(List<Hotel> hotels) {
 
-        Map<String, Map<String, Long>> result = hotels.stream().
-                collect(groupingBy(Hotel::getCity, groupingBy(Hotel::getHotelName, counting())));
+        Map<String, Map<String, Long>> result = hotels
+                .stream()
+                .collect(groupingBy(Hotel::getCity, groupingBy(Hotel::getHotelName, counting())));
 
         List<String> cities = new ArrayList<>();
 
@@ -72,8 +73,9 @@ public class StreamTest {
         /**
          * Find all transactions in the year 2011 and sort them by value (small to high).
          */
-        List<Transaction> year2011 = transactions.stream().
-                filter(t -> t.getYear() == 2011)
+        List<Transaction> year2011 = transactions
+                .stream()
+                .filter(t -> t.getYear() == 2011)
                 .sorted(Comparator.comparingInt(Transaction::getValue))
                 .collect(toList());
 
@@ -83,7 +85,8 @@ public class StreamTest {
         /**
          * What are all the unique cities where the traders work?
          */
-        List<String> uniqueCities = transactions.stream()
+        List<String> uniqueCities = transactions
+                .stream()
                 .map(t -> t.getTrader().getCity())
                 .distinct()
                 .collect(toList());
@@ -94,7 +97,8 @@ public class StreamTest {
         /**
          * Find all traders from Cambridge and sort them by name
          */
-        List<Trader> tradersByName = transactions.stream()
+        List<Trader> tradersByName = transactions
+                .stream()
                 .map(Transaction::getTrader)
                 .filter(trader -> trader.getCity().equals("Cambridge"))
                 .sorted(Comparator.comparing(Trader::getName))
@@ -107,7 +111,8 @@ public class StreamTest {
         /**
          * Return a string of all traders’ names sorted alphabetically
          */
-        String tradersNameSorted = transactions.stream()
+        String tradersNameSorted = transactions
+                .stream()
                 .map(t -> t.getTrader().getName())
                 .sorted()
                 .distinct()
@@ -120,7 +125,8 @@ public class StreamTest {
         /**
          * Are any traders based in Milan
          */
-        Boolean tradersInMilan = transactions.stream()
+        Boolean tradersInMilan = transactions
+                .stream()
                 .anyMatch(t -> t.getTrader().getCity().equals("Milan"));
 
         System.out.println(tradersInMilan);
@@ -129,7 +135,8 @@ public class StreamTest {
         /**
          * Find all transactions’ values from the traders living in Cambridge
          */
-        List<Integer> transactionValues = transactions.stream()
+        List<Integer> transactionValues = transactions
+                .stream()
                 .filter(t -> t.getTrader().getCity().equals("Cambridge"))
                 .map(Transaction::getValue)
                 .collect(toList());
@@ -140,7 +147,8 @@ public class StreamTest {
         /**
          * What’s the highest value of all the transactions?
          */
-        Integer highestValue = transactions.stream()
+        Integer highestValue = transactions
+                .stream()
                 .map(Transaction::getValue)
                 .reduce(Integer.MIN_VALUE, Integer::max);
 
@@ -150,7 +158,8 @@ public class StreamTest {
         /**
          * Find the transaction with the smallest value.
          */
-        Optional<Integer> smallestValue = transactions.stream()
+        Optional<Integer> smallestValue = transactions
+                .stream()
                 .map(Transaction::getValue)
                 .min(Integer::compareTo);
 
