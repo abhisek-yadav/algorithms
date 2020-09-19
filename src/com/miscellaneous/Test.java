@@ -1,9 +1,8 @@
 package com.miscellaneous;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Test {
 
@@ -279,6 +278,152 @@ public class Test {
         return Math.max(result, secondResult);
     }
 
+    public static String maskify(String creditCardNumber) {
+
+        final char maskChar = '#';
+
+        // check for null or empty
+        if (creditCardNumber == null || creditCardNumber.isEmpty())
+            return creditCardNumber;
+
+        int length = creditCardNumber.length();
+        if (length < 6)
+            return creditCardNumber;
+
+        StringBuilder maskedOutput = new StringBuilder();
+        maskedOutput.append(creditCardNumber.charAt(0));
+
+        //performing masking for qualified characters
+        IntStream.range(1, length - 4)
+                .forEach(i -> {
+                    if (Character.isDigit(creditCardNumber.charAt(i))) {
+                        maskedOutput.append(maskChar);
+                    } else {
+                        maskedOutput.append(creditCardNumber.charAt(i));
+                    }
+                });
+
+        maskedOutput.append(creditCardNumber.substring(length - 4));
+
+        return String.valueOf(maskedOutput);
+    }
+
+    public static String maskifyUsingRegEx(String creditCardNumber) {
+
+        final String maskChar = "#";
+        final String pattern = "([0-9])";
+
+        // check for null or empty
+        if (creditCardNumber == null || creditCardNumber.isEmpty())
+            return creditCardNumber;
+
+        int length = creditCardNumber.length();
+        if (length < 6)
+            return creditCardNumber;
+
+        StringBuilder maskedOutput = new StringBuilder();
+        maskedOutput.append(creditCardNumber.charAt(0));
+
+        //getting qualified characters to be masked
+        var toBeMasked = creditCardNumber.substring(1, creditCardNumber.length() - 4);
+
+        //masking the characters matched with regex
+        maskedOutput.append(toBeMasked.replaceAll(pattern, maskChar));
+
+        //appending last 4 characters
+        maskedOutput.append(creditCardNumber.substring(length - 4));
+
+        return String.valueOf(maskedOutput);
+    }
+
+    public static String numberToOrdinal(Integer number) {
+
+        if (number == 0)
+            return String.valueOf(number);
+
+        StringBuilder ordinalNumber = new StringBuilder();
+        ordinalNumber.append(number);
+
+        final Integer lastDigit = number % 10;
+        final Integer lastTwoDigit = number % 100;
+
+        // check for exceptional cases
+        if (lastTwoDigit == 11 || lastTwoDigit == 12 || lastTwoDigit == 13) {
+            ordinalNumber.append("th");
+        } else {
+            String ordinalVal = ordinalForSingleDigit(lastDigit);
+            ordinalNumber.append(ordinalVal);
+        }
+
+        return String.valueOf(ordinalNumber);
+    }
+
+    /**
+     * Utility method to take single digit as a input and return the ordinal value.
+     *
+     * @param d
+     * @return ordinal string
+     */
+    public static String ordinalForSingleDigit(Integer d) {
+
+        switch (d) {
+            case 1:
+                return "st";
+            case 2:
+                return "nd";
+            case 3:
+                return "rd";
+            default:
+                return "th";
+        }
+    }
+
+
+    public static double evaluate(String expr) {
+
+        if (expr == null || expr.isEmpty())
+            return 0;
+
+        java.util.Stack<Double> operands = new java.util.Stack<>();
+
+        // splitting and parsing the given expression
+        Stream.of(expr.split(" "))
+                .forEach(element -> {
+
+                    // converting to char to check for digit
+                    char ch = element.charAt(0);
+
+                    if (Character.isDigit(ch)) {
+                        operands.push(Double.valueOf(element));
+                    } else {
+                        Optional<Double> result = evaluateOperation(operands, element);
+                        result.ifPresent(operands::push);
+                    }
+                });
+
+        return operands.pop();
+    }
+
+
+    public static Optional<Double> evaluateOperation(java.util.Stack<Double> operands, String operator) {
+
+        Double firstOperand = operands.pop();
+        Double secondOperand = operands.pop();
+
+        switch (operator) {
+            case "+":
+                return Optional.of(secondOperand + firstOperand);
+            case "-":
+                return Optional.of(secondOperand - firstOperand);
+            case "*":
+                return Optional.of(secondOperand * firstOperand);
+            case "/":
+                return Optional.of(secondOperand / firstOperand);
+            default:
+                return Optional.empty();
+        }
+
+    }
 
     public static void main(String[] args) {
 
@@ -304,6 +449,13 @@ public class Test {
         int[] arr = {-1, -1, 1, -1, 1, 0, 1, -1, 1, -1, 0, -1, 0};
 
         System.out.println(maxLength(arr));
+
+//        System.out.println(maskifyUsingRegEx("1234-5-kjsdfhgjhsgfJDKDS=-HDJS--6789"));
+
+//        System.out.println(numberToOrdinal(0));
+
+//        System.out.println(evaluate("2.5 1 2 + 4 * + 3 -"));
+//        System.out.println(evaluate("1000 123 +"));
 
     }
 }
