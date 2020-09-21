@@ -628,6 +628,13 @@ public class CodilityTest {
         return result;
     }
 
+    public static int distinctNumbers(int[] A) {
+
+        Set<Integer> distinctNumbers = Arrays.stream(A).boxed().collect(toSet());
+
+        return distinctNumbers.size();
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -695,12 +702,16 @@ public class CodilityTest {
 //        int[] arr = {0, 1, 0, 1, 1};
 //        System.out.println(passingCars(arr));
 
-        int[] p = {2, 5, 0};
-        int[] q = {4, 5, 6};
+//        int[] p = {2, 5, 0};
+//        int[] q = {4, 5, 6};
 
-        String s = "CAGCCTA";
+//        String s = "CAGCCTA";
 
-        printArray(genomicRangeQuery(s, p, q));
+//        printArray(genomicRangeQuery(s, p, q));
+
+        int[] arr = {2, 1, 1, 2, 3, 1};
+
+        System.out.println(distinctNumbers(arr));
     }
 }
 
