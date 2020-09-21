@@ -635,6 +635,30 @@ public class CodilityTest {
         return distinctNumbers.size();
     }
 
+    /**
+     * A non-empty array A consisting of N integers is given.
+     * <p>
+     * The product of triplet (P, Q, R) equates to A[P] * A[Q] * A[R] (0 ≤ P < Q < R < N)
+     *
+     * @param A
+     * @return
+     */
+    public static int maxProductOfThree(int[] A) {
+
+        Arrays.sort(A);
+        int n = A.length - 1;
+
+        if (A[0] == 0 && A[n] == 0)
+            return 0;
+
+        if ((A[0] < 0 && A[n] < 0) || (A[0] > 0 && A[n] > 0))
+            return A[n] * A[n - 1] * A[n - 2];
+
+        else
+            return Math.max((A[0] * A[1] * A[n]), A[n] * A[n - 1] * A[n - 2]);
+
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -709,9 +733,13 @@ public class CodilityTest {
 
 //        printArray(genomicRangeQuery(s, p, q));
 
-        int[] arr = {2, 1, 1, 2, 3, 1};
+//        int[] arr = {2, 1, 1, 2, 3, 1};
 
-        System.out.println(distinctNumbers(arr));
+//        System.out.println(distinctNumbers(arr));
+
+        int[] arr = {-3, 1, 2, -2, 5, 6};
+
+        System.out.println(maxProductOfThree(new int[0]));
     }
 }
 
