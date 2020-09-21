@@ -659,6 +659,40 @@ public class CodilityTest {
 
     }
 
+    public static int triangleCount(int[] A) {
+
+        int count = 0;
+
+        Arrays.sort(A);
+        int n = A.length;
+
+        if (n < 3)
+            return count;
+
+        int i = 0;
+        int j = 1;
+        int k = 2;
+
+        // case for Integer.MAX_VALUE
+        if (A[i] == A[j] && A[j] == A[k] && A[i] > 0)
+            return 1;
+
+        for (int x = 2; x < n; x++) {
+
+            if (A[i] + A[j] > A[k] && A[i] + A[k] > A[j] && A[j] + A[k] > A[i]) {
+                count = 1;
+                break;
+            }
+
+            i = j;
+            j = k;
+            k = k + 1;
+
+        }
+
+        return count == 1 ? 1 : 0;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -737,9 +771,14 @@ public class CodilityTest {
 
 //        System.out.println(distinctNumbers(arr));
 
-        int[] arr = {-3, 1, 2, -2, 5, 6};
+//        int[] arr = {-3, 1, 2, -2, 5, 6};
 
-        System.out.println(maxProductOfThree(new int[0]));
+//        System.out.println(maxProductOfThree(new int[0]));
+
+        int[] arr = {10, 2, 5, 1, 8, 20};
+
+        System.out.println(triangleCount(arr));
+
     }
 }
 
