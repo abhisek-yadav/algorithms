@@ -693,6 +693,53 @@ public class CodilityTest {
         return count == 1 ? 1 : 0;
     }
 
+    public static int isParenthesesNested(String S) {
+
+        Stack<String> stack = new Stack<>();
+
+        for (int i = 0; i < S.length(); i++) {
+
+            char e = S.charAt(i);
+
+            switch (e) {
+                case '(':
+                    stack.push("(");
+                    break;
+                case '{':
+                    stack.push("{");
+                    break;
+                case '[':
+                    stack.push("[");
+                    break;
+                case ')':
+                    if (stack.isEmpty())
+                        return 0;
+                    String par = stack.peek();
+                    if (par.equals("("))
+                        stack.pop();
+                    else return 0;
+                    break;
+                case '}':
+                    if (stack.isEmpty())
+                        return 0;
+                    String par1 = stack.peek();
+                    if (par1.equals("{"))
+                        stack.pop();
+                    else return 0;
+                    break;
+                case ']':
+                    if (stack.isEmpty())
+                        return 0;
+                    String par2 = stack.peek();
+                    if (par2.equals("["))
+                        stack.pop();
+                    else return 0;
+                    break;
+            }
+        }
+        return stack.isEmpty() ? 1 : 0;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -775,10 +822,14 @@ public class CodilityTest {
 
 //        System.out.println(maxProductOfThree(new int[0]));
 
-        int[] arr = {10, 2, 5, 1, 8, 20};
+//        int[] arr = {10, 2, 5, 1, 8, 20};
 
-        System.out.println(triangleCount(arr));
+//        System.out.println(triangleCount(arr));
 
+//        String s = "{[()()]}";
+        String s = "";
+
+        System.out.println(isParenthesesNested(s));
     }
 }
 
