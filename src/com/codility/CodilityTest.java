@@ -776,6 +776,26 @@ public class CodilityTest {
         return fish.size();
     }
 
+    public static int stoneWall(int[] H) {
+
+        int count = 0;
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < H.length; i++) {
+
+            while (!stack.isEmpty() && stack.peek() > H[i])
+                stack.pop();
+
+            if (stack.isEmpty() || stack.peek() != H[i]) {
+                stack.push(H[i]);
+                ++count;
+            }
+
+        }
+
+        return count;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -873,10 +893,15 @@ public class CodilityTest {
 //        int[] A = {8, 6, 5, 3, 2, 4, 7};
 //        int[] B = {1, 1, 1, 1, 1, 0, 0};
 
-        int[] A = {8, 6, 5, 3, 2, 4, 7};
-        int[] B = {0, 0, 0, 0, 0, 0, 0};
+//        int[] A = {8, 6, 5, 3, 2, 4, 7};
+//        int[] B = {0, 0, 0, 0, 0, 0, 0};
 
-        System.out.println(aliveFishCount(A, B));
+//        System.out.println(aliveFishCount(A, B));
+
+        int[] H = {8, 8, 5, 7, 9, 8, 7, 4, 8};
+
+        System.out.println(stoneWall(H));
+
     }
 }
 
