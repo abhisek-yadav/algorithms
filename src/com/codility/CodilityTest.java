@@ -796,6 +796,41 @@ public class CodilityTest {
         return count;
     }
 
+    public static int numberOfDiscIntersections(int[] A) {
+
+        long[] diskStartPoint = new long[A.length];
+        long[] diskEndPoint = new long[A.length];
+
+        for (int i = 0; i < A.length; i++) {
+            diskStartPoint[i] = (long) i - A[i];
+            diskEndPoint[i] = (long) i + A[i];
+        }
+
+        Arrays.sort(diskStartPoint);
+        Arrays.sort(diskEndPoint);
+
+        int intersectionCount = 0;
+        int openDisk = 0;
+
+        int i = 0;
+        int j = 0;
+
+        while (i < diskStartPoint.length) {
+
+            if (diskStartPoint[i] <= diskEndPoint[j]) {
+                intersectionCount += openDisk;
+                ++openDisk;
+                ++i;
+            } else {
+                ++j;
+                --openDisk;
+            }
+
+        }
+
+        return intersectionCount > 10000000 ? -1 : intersectionCount;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -898,9 +933,14 @@ public class CodilityTest {
 
 //        System.out.println(aliveFishCount(A, B));
 
-        int[] H = {8, 8, 5, 7, 9, 8, 7, 4, 8};
+//        int[] H = {8, 8, 5, 7, 9, 8, 7, 4, 8};
 
-        System.out.println(stoneWall(H));
+//        System.out.println(stoneWall(H));
+
+//        int[] A = {1, 5, 2, 1, 4, 0};
+
+        int[] A = {1, 2147483647, 0};
+        System.out.println(numberOfDiscIntersections(A));
 
     }
 }
