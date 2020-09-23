@@ -740,6 +740,42 @@ public class CodilityTest {
         return stack.isEmpty() ? 1 : 0;
     }
 
+    public static int  aliveFishCount(int[] A, int[] B) {
+
+        Stack<Integer> fish = new Stack<>();
+        Stack<Integer> stream = new Stack<>();
+
+        for (int i = 0, j = 0; i < A.length && j < B.length; i++, j++) {
+
+            if (B[j] == 1) {
+                fish.push(A[i]);
+                stream.push(B[j]);
+            } else {
+                if (fish.isEmpty() || stream.peek() == 0) {
+                    fish.push(A[i]);
+                    stream.push(B[j]);
+                } else {
+                    if (stream.peek() == 1) {
+                        int newFish = A[i];
+                        int newStream = B[j];
+
+                        while ((!fish.isEmpty() && fish.peek() < newFish) && stream.peek() != newStream) {
+                            stream.pop();
+                            fish.pop();
+                        }
+
+                        if (stream.isEmpty() || stream.peek() == B[j]) {
+                            fish.push(newFish);
+                            stream.push(newStream);
+                        }
+                    }
+                }
+            }
+        }
+
+        return fish.size();
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -827,9 +863,20 @@ public class CodilityTest {
 //        System.out.println(triangleCount(arr));
 
 //        String s = "{[()()]}";
-        String s = "";
+//        String s = "";
 
-        System.out.println(isParenthesesNested(s));
+//        System.out.println(isParenthesesNested(s));
+
+//        int[] A = {4, 3, 2, 1, 5};
+//        int[] B = {0, 1, 0, 0, 0};
+
+//        int[] A = {8, 6, 5, 3, 2, 4, 7};
+//        int[] B = {1, 1, 1, 1, 1, 0, 0};
+
+        int[] A = {8, 6, 5, 3, 2, 4, 7};
+        int[] B = {0, 0, 0, 0, 0, 0, 0};
+
+        System.out.println(aliveFishCount(A, B));
     }
 }
 
