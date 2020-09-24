@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 public class CodilityTest {
@@ -831,6 +832,34 @@ public class CodilityTest {
         return intersectionCount > 10000000 ? -1 : intersectionCount;
     }
 
+    public static int dominator(int[] A) {
+
+        int index = -1;
+        long count = 0;
+        Map<Integer, Long> occurrences = new HashMap<>();
+
+        for (int i = 0; i < A.length; i++) {
+
+            if (!occurrences.containsKey(A[i])) {
+                occurrences.put(A[i], 1L);
+                if (count < 1) {
+                    count = 1;
+                    index = i;
+                }
+            } else {
+                long occurrence = occurrences.get(A[i]) + 1;
+                if (occurrence > count) {
+                    count = occurrence;
+                    index = i;
+                }
+                occurrences.put(A[i], occurrence);
+            }
+
+        }
+
+        return count > A.length / 2F ? index : -1;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -939,9 +968,15 @@ public class CodilityTest {
 
 //        int[] A = {1, 5, 2, 1, 4, 0};
 
-        int[] A = {1, 2147483647, 0};
-        System.out.println(numberOfDiscIntersections(A));
+//        int[] A = {1, 2147483647, 0};
+//        System.out.println(numberOfDiscIntersections(A));
 
+//        int[] A = {3, 4, 3, 2, 3, -1, 3, 3};
+//        int[] A = {Integer.MAX_VALUE};
+
+        int[] A = {2, 1, 1, 1, 3};
+
+        System.out.println(dominator(A));
     }
 }
 
