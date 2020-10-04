@@ -860,6 +860,52 @@ public class CodilityTest {
         return count > A.length / 2F ? index : -1;
     }
 
+    public static int equiLeader(int[] A) {
+
+        int leader = Integer.MAX_VALUE;
+        long count = 0;
+
+        Map<Integer, Long> occurrences = new HashMap<>();
+
+        for (int i = 0; i < A.length; i++) {
+
+            if (!occurrences.containsKey(A[i])) {
+                occurrences.put(A[i], 1L);
+                if (count < 1) {
+                    count = 1;
+                    leader = A[i];
+                }
+            } else {
+                long occurrence = occurrences.get(A[i]) + 1;
+                if (occurrence > count) {
+                    count = occurrence;
+                    leader = A[i];
+                }
+                occurrences.put(A[i], occurrence);
+            }
+
+        }
+
+        long currentCount = 0;
+        int result = 0;
+
+        for (int i = 0; i < A.length; i++) {
+
+            int y = A.length - i - 1;
+            int x = A.length - y;
+
+            if (A[i] == leader) {
+                currentCount += 1;
+                count -= 1;
+            }
+
+            if ((currentCount > (x / 2F)) && (count > (y / 2F)))
+                ++result;
+        }
+
+        return result;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -974,9 +1020,14 @@ public class CodilityTest {
 //        int[] A = {3, 4, 3, 2, 3, -1, 3, 3};
 //        int[] A = {Integer.MAX_VALUE};
 
-        int[] A = {2, 1, 1, 1, 3};
+//        int[] A = {2, 1, 1, 1, 3};
 
-        System.out.println(dominator(A));
+//        System.out.println(dominator(A));
+
+//        int[] A = {4, 3, 4, 4, 4, 2};
+        int[] A = {4, 4, 2, 5, 3, 4, 4, 4};
+
+        System.out.println(equiLeader(A));
     }
 }
 
