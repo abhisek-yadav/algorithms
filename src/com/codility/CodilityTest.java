@@ -891,8 +891,8 @@ public class CodilityTest {
 
         for (int i = 0; i < A.length; i++) {
 
-            int y = A.length - i - 1;
-            int x = A.length - y;
+            int x = i + 1;
+            int y = A.length - x;
 
             if (A[i] == leader) {
                 currentCount += 1;
@@ -1024,8 +1024,8 @@ public class CodilityTest {
 
 //        System.out.println(dominator(A));
 
-//        int[] A = {4, 3, 4, 4, 4, 2};
-        int[] A = {4, 4, 2, 5, 3, 4, 4, 4};
+        int[] A = {4, 3, 4, 4, 4, 2};
+//        int[] A = {4, 4, 2, 5, 3, 4, 4, 4};
 
         System.out.println(equiLeader(A));
     }
