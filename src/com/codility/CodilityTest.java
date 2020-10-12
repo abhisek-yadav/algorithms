@@ -906,6 +906,19 @@ public class CodilityTest {
         return result;
     }
 
+    public static int maxSliceSum(int[] A) {
+
+        int maxSum = Integer.MIN_VALUE;
+        int maxEndingHere = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            maxEndingHere = Math.max(A[i], A[i] + maxEndingHere);
+            maxSum = Math.max(maxSum, maxEndingHere);
+        }
+
+        return maxSum;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -1024,10 +1037,15 @@ public class CodilityTest {
 
 //        System.out.println(dominator(A));
 
-        int[] A = {4, 3, 4, 4, 4, 2};
+//        int[] A = {4, 3, 4, 4, 4, 2};
 //        int[] A = {4, 4, 2, 5, 3, 4, 4, 4};
 
-        System.out.println(equiLeader(A));
+//        System.out.println(equiLeader(A));
+
+        int[] A = {3, 2, -6, 4, 0};
+
+        System.out.println(maxSliceSum(A));
+
     }
 }
 
