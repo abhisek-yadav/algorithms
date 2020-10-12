@@ -919,6 +919,31 @@ public class CodilityTest {
         return maxSum;
     }
 
+    public static int maxProfit(int[] A) {
+
+        if (A.length <= 2) {
+            if (A.length == 0 || A.length == 1)
+                return 0;
+            else
+                return Math.max(0, A[1] - A[0]);
+        }
+
+        int maxProfit = 0;
+        int maxProfitOfDay = A[A.length - 1];
+
+        for (int i = A.length - 2; i >= 0; i--) {
+
+            if (A[i] < maxProfitOfDay) {
+                maxProfit = Math.max(maxProfit, maxProfitOfDay - A[i]);
+            } else {
+                maxProfitOfDay = A[i];
+            }
+
+        }
+
+        return maxProfit;
+    }
+
     public static void printArray(int[] arr) {
         Arrays.stream(arr).forEach(e -> System.out.print(e + ", "));
     }
@@ -1042,10 +1067,13 @@ public class CodilityTest {
 
 //        System.out.println(equiLeader(A));
 
-        int[] A = {3, 2, -6, 4, 0};
+//        int[] A = {3, 2, -6, 4, 0};
 
-        System.out.println(maxSliceSum(A));
+//        System.out.println(maxSliceSum(A));
 
+        int[] A = {23171, 21011, 21123, 21366, 21013, 21367};
+
+        System.out.println(maxProfit(A));
     }
 }
 
