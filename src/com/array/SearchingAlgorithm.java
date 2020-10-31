@@ -29,7 +29,7 @@ public class SearchingAlgorithm {
             if (arr[i] > x) {
                 y = x;
                 x = arr[i];
-            } else if (arr[i] > y) {
+            } else if (arr[i] > y && arr[i] != x) {
                 y = arr[i];
             }
         }
